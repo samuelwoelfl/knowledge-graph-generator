@@ -1,0 +1,47 @@
+{
+  "entities": [
+    { "id": "E1_Product", "label": "Produkt Core", "x": "50%", "y": "10%" },
+    { "id": "E2_TechLead", "label": "Tech Lead Max", "x": "20%", "y": "25%" },
+    { "id": "E3_Marketing", "label": "Marketing Team", "x": "75%", "y": "25%" },
+    { "id": "E4_Funding", "label": "Venture Capital", "x": "10%", "y": "45%" },
+    { "id": "E5_Backend", "label": "Backend Devs", "x": "35%", "y": "50%" },
+    { "id": "E6_Frontend", "label": "Frontend Devs", "x": "65%", "y": "50%" },
+    { "id": "E7_UI_UX", "label": "Design Team", "x": "85%", "y": "45%" },
+    { "id": "E8_Legal", "label": "Rechtsabteilung", "x": "10%", "y": "70%" },
+    { "id": "E9_Support", "label": "Kunden Support", "x": "85%", "y": "70%" },
+    { "id": "E10_HR", "label": "Personalwesen", "x": "50%", "y": "75%" },
+    { "id": "E11_Docs", "label": "Dokumentation", "x": "20%", "y": "90%" },
+    { "id": "E12_Testing", "label": "QA Team", "x": "75%", "y": "90%" }
+  ],
+
+  "relations": [
+    { "from": "E1_Product", "to": "E2_TechLead", "label": "verantwortet", "tag": "Development" },
+    { "from": "E2_TechLead", "to": "E5_Backend", "label": "delegiert an", "tag": "Development" },
+    { "from": "E2_TechLead", "to": "E6_Frontend", "label": "delegiert an", "tag": "Development" },
+    
+    { "from": "E4_Funding", "to": "E1_Product", "label": "finanziert", "tag": "Finance" },
+    { "from": "E10_HR", "to": "E4_Funding", "label": "berichtet über", "tag": "Finance" },
+    { "from": "E4_Funding", "to": "E8_Legal", "label": "prüft Vertrag mit", "tag": "Finance" },
+    
+    { "from": "E6_Frontend", "to": "E7_UI_UX", "label": "benötigt Input von", "tag": "Development" },
+    { "from": "E7_UI_UX", "to": "E6_Frontend", "label": "liefert Assets an", "tag": "Development" },
+    
+    { "from": "E5_Backend", "to": "E12_Testing", "label": "liefert Code an", "tag": "Development" },
+    { "from": "E12_Testing", "to": "E5_Backend", "label": "gibt Feedback an", "tag": "Development" },
+    
+    { "from": "E3_Marketing", "to": "E1_Product", "label": "definiert Roadmap", "tag": "Development" },
+    { "from": "E3_Marketing", "to": "E9_Support", "label": "schult", "tag": "Support" },
+    { "from": "E9_Support", "to": "E1_Product", "label": "meldet Bugs an", "tag": "Support" },
+
+    { "from": "E10_HR", "to": "E2_TechLead", "label": "stellt ein", "tag": "Support" },
+    { "from": "E10_HR", "to": "E5_Backend", "label": "stellt ein", "tag": "Support" },
+    
+    { "from": "E1_Product", "to": "E8_Legal", "label": "prüft Lizenzen", "tag": "Finance" },
+
+    { "from": "E11_Docs", "to": "E1_Product", "label": "dokumentiert", "tag": "Development" },
+    { "from": "E12_Testing", "to": "E11_Docs", "label": "bestätigt Features", "tag": "Development" },
+    
+    { "from": "E9_Support", "to": "E3_Marketing", "label": "liefert Feedback an", "tag": "Support" },
+    { "from": "E5_Backend", "to": "E6_Frontend", "label": "stellt API bereit", "tag": "Development" }
+  ]
+}

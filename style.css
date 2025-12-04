@@ -1,0 +1,244 @@
+/* --- KORREKTUR: Full-Screen Layout Definition --- */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Wichtig: Stellt sicher, dass <body> 100% des Viewports einnimmt */
+    overflow: hidden; /* Verhindert Doppelschriftrollen */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9; 
+    display: flex; /* NEU: Aktiviert Flexbox für das Hauptlayout */
+    flex-direction: column; /* Stellt sicher, dass Filter über dem Graphen liegen (Desktop/Mobile) */
+}
+
+/* --- Hinzugefügte Layout-Container (basierend auf deinem Mobile-CSS) --- */
+
+/* Fasse Filter und Graph in einem Container zusammen, falls nicht bereits geschehen */
+#main-content {
+    display: flex;
+    flex-direction: column; /* Filter oben, Graph unten */
+    flex-grow: 1; /* Nimmt den restlichen Platz ein */
+    overflow: hidden; 
+}
+
+#graph-view { /* Angenommen dies ist der Elter von #graph-container */
+    flex-grow: 1;
+    min-height: 0; /* Wichtig in Flexbox, damit es sich korrekt verkleinert */
+    position: relative;
+}
+
+/* ---------------------------------------------------- */
+
+
+h2 {
+    color: #333;
+}
+
+/* Container für Pan und Zoom */
+#graph-container {
+    position: absolute; /* NEU: Absolute Positionierung innerhalb von #graph-view */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* FUNKTIONIERT JETZT, da #graph-view eine definierte Höhe hat */
+    overflow: hidden; 
+    cursor: grab; 
+    touch-action: none; 
+}
+
+/* Der innere Container, der transformiert wird (Logik ist korrekt) */
+#graph-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform; 
+    transition: transform 0.05s linear;
+}
+
+/* SVG-Ebene für Linien */
+#lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none; 
+}
+
+/* Knoten-Ebene */
+#nodes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* Standard Node Styling (unverändert) */
+.node {
+    position: absolute;
+    padding: 10px 16px;
+    background: #fff;
+    border: 2px solid #555;
+    border-radius: 100px;
+    transform: translate(-50%, -50%);
+    cursor: default;
+    font-weight: bold;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 5;
+    transition: opacity 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+/* ... Restliche Node-Styles ... */
+.node.inactive {
+    opacity: 0.5;            
+    border-color: #ddd;      
+    box-shadow: none;
+}
+
+.node:hover {
+    border-color: #000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+/* Klick-Aktivierung */
+.node.clicked-active { /* Korrigiert von .entity-node.active */
+    /* border: 3px solid #007bff;  */
+    /* box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); */
+    /* background-color: #e6f0ff;  */
+}
+
+/* ... SVG und Label Styles (unverändert) ... */
+svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none; 
+}
+
+.edge-label-group {
+    pointer-events: auto; 
+}
+
+.edge-text {
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    paint-order: stroke fill;
+    stroke: #fff;
+    stroke-width: 3px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    font-weight: 500;
+}
+
+/* --- Tag und Filter Styling --- */
+#filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+#filter-tags label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+#filter-tags input[type="checkbox"] {
+    display: none;
+}
+
+.tag-color {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 18px;
+    color: black;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    border: 2px solid #000000;
+    opacity: .6;
+}
+
+.tag-color:hover {
+    /* border-color: rgba(255, 255, 255, 0.8); */
+    opacity: .7;
+}
+
+.tag-color.active {
+    color: white;
+    opacity: 1;
+}
+
+.filter-container {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    z-index: 100;
+    flex-wrap: wrap;
+}
+
+#reset-view-button {
+    padding: 8px 15px;
+    background-color: #f2f2f2;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+#reset-view-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* --- Mobile-Optimierung --- */
+@media (max-width: 600px) {
+    
+    .filter-container {
+        flex-direction: column; /* Filter untereinander anordnen */
+        gap: 10px;
+    }
+
+    /* Das Hauptlayout ist bereits auf 'flex-direction: column' gesetzt */
+    
+    #filter-wrapper { /* Angenommen, du hast einen Wrapper für die Filter */
+        padding: 10px;
+        max-height: 40vh; /* Filter nehmen maximal 40% der Höhe ein */
+        overflow-y: auto;
+    }
+
+    #reset-view-button {
+        width: 100%;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    
+    /* #graph-view wird automatisch den Rest der Höhe einnehmen */
+    #graph-view {
+        height: auto; /* Muss nicht fix sein, da flex-grow es übernimmt */
+    }
+    
+    /* Kleinere Nodes auf Mobile */
+    .node {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }#
+}
