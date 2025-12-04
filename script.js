@@ -55,9 +55,9 @@ function cssPosToPixels(value, containerSize) {
 
 const tagColors = {};
 const palette = [
-    "#E63946", "#457B9D", "#2A9D8F",
-    "#F4A261", "#9C89B8", "#F67E7D",
-    "#6B705C", "#CB997E"
+    "#E63946", "#457B9D", "#f4cd61ff",
+    "#67d92eff", "#9C89B8", "#f69d7dff",
+    "#6B705C", "#CB997E", "#2A9D8F"
 ];
 
 function getTagColor(tag) {
